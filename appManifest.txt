@@ -1,0 +1,15 @@
+{
+        "name":"Nagios App",
+        "identifier":"eu.ownyourdata.nagios",
+        "type":"external",
+        "description":"access data from nagios",
+        "permissions":["eu.ownyourdata.nagios:read",
+                       "eu.ownyourdata.nagios:write",
+                       "eu.ownyourdata.nagios:update",
+                       "eu.ownyourdata.nagios:delete",
+                       "eu.ownyourdata.nagios.temp1:read",
+                       "eu.ownyourdata.nagios.temp1:write",
+                       "eu.ownyourdata.nagios.temp1:update"]
+}
+base64-encoded manifest (https://www.base64encode.org/)
+ew0KICAgICAgICAibmFtZSI6Ik5hZ2lvcyBBcHAiLA0KICAgICAgICAiaWRlbnRpZmllciI6ImV1Lm93bnlvdXJkYXRhLm5hZ2lvcyIsDQogICAgICAgICJ0eXBlIjoiZXh0ZXJuYWwiLA0KICAgICAgICAiZGVzY3JpcHRpb24iOiJhY2Nlc3MgZGF0YSBmcm9tIG5hZ2lvcyIsDQogICAgICAgICJwZXJtaXNzaW9ucyI6WyJldS5vd255b3VyZGF0YS5uYWdpb3M6cmVhZCIsDQogICAgICAgICAgICAgICAgICAgICAgICJldS5vd255b3VyZGF0YS5uYWdpb3M6d3JpdGUiLA0KICAgICAgICAgICAgICAgICAgICAgICAiZXUub3dueW91cmRhdGEubmFnaW9zOnVwZGF0ZSIsDQogICAgICAgICAgICAgICAgICAgICAgICJldS5vd255b3VyZGF0YS5uYWdpb3M6ZGVsZXRlIiwNCiAgICAgICAgICAgICAgICAgICAgICAgImV1Lm93bnlvdXJkYXRhLm5hZ2lvcy50ZW1wMTpyZWFkIiwNCiAgICAgICAgICAgICAgICAgICAgICAgImV1Lm93bnlvdXJkYXRhLm5hZ2lvcy50ZW1wMTp3cml0ZSIsDQogICAgICAgICAgICAgICAgICAgICAgICJldS5vd255b3VyZGF0YS5uYWdpb3MudGVtcDE6dXBkYXRlIl0NCn0=
