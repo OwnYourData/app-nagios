@@ -1,5 +1,5 @@
 # basic functions for accessing PIA
-# last update:2016-07-27
+# last update:2016-08-21
 
 # Low-level functions to access PIA =======================
 # used header for GET and POST requests
@@ -42,45 +42,80 @@ setupApp <- function(pia_url, app_key, app_secret) {
 }
 
 # Read and CRUD Operations for a Plugin (App) =============
+# convert response string into data.frame
+r2d <- function(response){
+        if (is.na(response)) {
+                data.frame()
+        } else {
+                if (nchar(response) > 0) {
+                        retVal <- fromJSON(response)
+                        if(length(retVal) == 0) {
+                                data.frame()
+                        } else {
+                                if ('error' %in% names(retVal)) {
+                                        data.frame()
+                                } else {
+                                        if (!is.null(retVal$message)) {
+                                                if (retVal$message == 
+                                                    'error.accessDenied') {
+                                                        data.frame()
+                                                } else {
+                                                        retVal
+                                                }
+                                        } else {
+                                                retVal
+                                        }
+                                }
+                        }
+                } else {
+                        data.frame()
+                }
+        }
+}
+
 # read data from PIA
 readItems <- function(app, repo_url) {
         if (length(app) == 0) {
                 data.frame()
-        } else {
-                headers <- defaultHeaders(app[['token']])
-                url_data <- paste0(repo_url, '?size=2000')
-                response <- tryCatch(
-                        getURL(url_data,
-                               .opts=list(httpheader = headers)),
-                        error = function(e) { return(NA) })
-                if (is.na(response)) {
-                        data.frame()
-                } else {
-                        if (nchar(response) > 0) {
-                                retVal <- fromJSON(response)
-                                if(length(retVal) == 0) {
-                                        data.frame()
+                return()
+        }
+        headers <- defaultHeaders(app[['token']])
+        url_data <- paste0(repo_url, '?size=2000')
+        h <- basicHeaderGatherer()
+        doc <- tryCatch(
+                getURI(url_data, 
+                      .opts=list(httpheader = headers), 
+                      headerfunction = h$update),
+                error = function(e) { return(NA) })
+        response <- NA
+        respData <- data.frame()
+        if(!is.na(doc)){
+                recs <- as.integer(h$value()[['X-Total-Count']])
+                if(recs > 2000) {
+                        for(page in 0:floor(recs/2000)){
+                                url_data <- paste0(repo_url,
+                                                   '?page=', page,
+                                                   '&size=2000')
+                                response <- tryCatch(
+                                        getURL(url_data,
+                                               .opts=list(httpheader=headers)),
+                                        error = function(e) { return(NA) })
+                                subData <- r2d(response)
+                                if(nrow(respData)>0){
+                                        respData <- rbind(respData, subData)
                                 } else {
-                                        if ('error' %in% names(retVal)) {
-                                                data.frame()
-                                        } else {
-                                                if (!is.null(retVal$message)) {
-                                                        if (retVal$message == 
-                                                            'error.accessDenied') {
-                                                                data.frame()
-                                                        } else {
-                                                                retVal
-                                                        }
-                                                } else {
-                                                        retVal
-                                                }
-                                        }
+                                        respData <- subData
                                 }
-                        } else {
-                                data.frame()
                         }
+                } else {
+                        response <- tryCatch(
+                                getURL(url_data,
+                                       .opts=list(httpheader = headers)),
+                                error = function(e) { return(NA) })
+                        respData <- r2d(response)
                 }
         }
+        respData
 }
 
 # write data into PIA

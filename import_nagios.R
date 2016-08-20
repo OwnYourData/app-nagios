@@ -1,10 +1,13 @@
 # version 2016-08-17
 
 # Comments
+# - after download run:
+#   Rscript setup.R
 # - convert timestamp to date & time:
 #   as.POSIXct(ts, origin="1970-01-01")
 # - call script:
-#   Rscript import_nagios.R --ip=abbb::ba27:ebff:fef1:8e19 --host=climateplus_6540 --service=tmp --pia=http://localhost:8080 --key=eu.ownyourdata.nagios --secret=MlMX4W5hjghTYUzBknNq --repo=eu.ownyourdata.nagios.temp1
+#   Rscript import_nagios.R --ip=abbb::ba27:ebff:fef1:8e19 --host=climateplus_6540 --service=temp --pia=http://localhost:8080 --key=eu.ownyourdata.nagios --secret=MlMX4W5hjghTYUzBknNq --repo=eu.ownyourdata.nagios.temp1
+#   Rscript import_nagios.R --ip=abbb::ba27:ebff:fef1:8e19 --host=climateplus_6540 --service=temp --pia=http://192.168.1.209:8080 --key=eu.ownyourdata.nagios --secret=hLIikugcIVEfIbMbrcUB --repo=eu.ownyourdata.nagios.temp1
 
 suppressPackageStartupMessages(library(httr))
 suppressPackageStartupMessages(library(tools))
@@ -18,6 +21,7 @@ scriptPath <- file_path_as_absolute(dirname(sub("--file=","",
 setwd(scriptPath)
 
 # include files
+print(paste0(scriptPath, "/srvBase.R"))
 source(paste0(scriptPath, "/srvBase.R"))
 
 # get options -----------------------------------
@@ -86,7 +90,7 @@ if ((nchar(ip) == 0) |
 }
 
 # get data --------------------------------------
-#source <- "http://[abbb::ba27:ebff:fef1:8e19]/mysite/pnp4nagios/xport/json?host=climateplus_6540&srv=battery"
+#source <- "http://[abbb::ba27:ebff:fef1:8e19]/mysite/pnp4nagios/xport/json?host=climateplus_6540&srv=temp"
 source <- paste0("http://[",
                  ip,
                  "]/mysite/pnp4nagios/xport/json?host=",

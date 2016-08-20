@@ -1,4 +1,4 @@
-my_packages = c('httr', 'tools', 'jsonlite', 'RCurl')
+my_packages = c('httr', 'tools', 'jsonlite', 'RCurl', 'rjson')
 install_if_missing = function(p) {
   if (p %in% rownames(installed.packages()) == FALSE) {
     install.packages(p, dependencies = TRUE, repos="http://cran.rstudio.com/")
